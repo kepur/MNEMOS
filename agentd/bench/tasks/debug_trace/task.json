@@ -1,0 +1,4 @@
+{
+  "goal": "运行 tests/ 里的测试，weekly_summary 相关的用例失败了。找出根本原因并修复，让全部测试通过。不要修改 tests/ 下的文件。",
+  "accept": "python3 -m unittest discover -s tests"
+}

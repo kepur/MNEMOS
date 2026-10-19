@@ -1,0 +1,4 @@
+{
+  "goal": "把 billing 包里的 calc_tax 重命名为 compute_tax：所有内部调用改用新名字；billing 包导出 compute_tax；tax.py 保留 calc_tax 作为会发出 DeprecationWarning 的兼容别名。让 tests/ 中的测试全部通过，不要修改 tests/ 下的文件。",
+  "accept": "python3 -m unittest discover -s tests"
+}

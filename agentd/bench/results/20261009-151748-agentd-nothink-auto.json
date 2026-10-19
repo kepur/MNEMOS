@@ -1,0 +1,166 @@
+{
+  "tag": "20261009-151748-agentd-nothink-auto",
+  "runner": "agentd",
+  "model": "local/qwopus3.6-35b-a3b-coder-4bit",
+  "started": "20261009-151748",
+  "tasks": {
+    "debug_trace": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "diff": " 1 file changed, 2 insertions(+), 1 deletion(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 72.5,
+      "agentd": {
+        "run_id": "1009-151748-2c9d",
+        "task_id": "1009-151748-2c9d-tef89",
+        "status": "done",
+        "reason": "",
+        "workspace": "/Users/mac/.local/share/agentd/bench/20261009-151748-agentd-nothink-auto/debug_trace/repo",
+        "branch": null,
+        "final_summary": "Fixed the week_key function in app/dates.py. The bug was using %U (Sunday-based, 0-indexed) instead of ISO-8601 week numbering. Replaced with day.isocalendar() which correctly returns (ISO_year, ISO_week, weekday) tuples.",
+        "sessions": 1,
+        "rounds": 10,
+        "prompt_tokens": 45301,
+        "cached_tokens": 20607,
+        "new_prefill_tokens": 24694,
+        "completion_tokens": 1458,
+        "model_s": 72.0,
+        "tool_s": 0.1,
+        "wall_s": 72.4,
+        "session_ends": [
+          "done"
+        ],
+        "diff": " 1 file changed, 2 insertions(+), 1 deletion(-)",
+        "cached_ratio": 0.455
+      },
+      "server": {
+        "requests": 10,
+        "sessions": 1,
+        "prompt_tokens": 45301,
+        "new_prefill_tokens": 24694,
+        "cached_ratio": 0.455,
+        "prefill_s": 45.8,
+        "ttft_s": 46.0,
+        "max_prompt_tokens": 6180,
+        "append_hit_ratio": 0.111,
+        "miss_reasons": {
+          "ssd_prefix_miss": 1,
+          "None": 9
+        }
+      }
+    },
+    "fix_bug": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 9 insertions(+), 2 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 95.4,
+      "agentd": {
+        "run_id": "1009-151901-4702",
+        "task_id": "1009-151901-4702-tdaaa",
+        "status": "done",
+        "reason": "",
+        "workspace": "/Users/mac/.local/share/agentd/bench/20261009-151748-agentd-nothink-auto/fix_bug/repo",
+        "branch": null,
+        "final_summary": "Fixed textstats.py by rewriting the words() and top_words() functions:\n\n1. **words()** - Replaced the naive `text.split()` with a regex-based approach:\n   - First replaces hyphens with spaces (they separate words per the spec)\n   - Uses `re.findall(r\"[a-zA-Z0-9]+(?:'[a-zA-Z0-9]+)?\", text)` to find words, which naturally handles:\n     - Inner apostrophes (e.g., \"don't\" kept as one word)\n     - Outer apostrophes (e.g., \"'quoted'\" stripped to \"quoted\")\n     - Punctuation removed (commas, periods, etc.)\n     - Digits as valid word characters (e.g., \"66\", \"9\")\n\n2. **top_words()** - Fixed the sort key from `key=lambda kv: -kv[1]` to `key=lambda kv: (-kv[1], kv[0])` so that ties are broken alphabetically as specified in the docstring.\n\nAll 8 tests now pass (exit 0).",
+        "sessions": 1,
+        "rounds": 10,
+        "prompt_tokens": 45390,
+        "cached_tokens": 19549,
+        "new_prefill_tokens": 25841,
+        "completion_tokens": 2711,
+        "model_s": 94.9,
+        "tool_s": 0.1,
+        "wall_s": 95.2,
+        "session_ends": [
+          "done"
+        ],
+        "diff": " 1 file changed, 9 insertions(+), 2 deletions(-)",
+        "cached_ratio": 0.431
+      },
+      "server": {
+        "requests": 10,
+        "sessions": 1,
+        "prompt_tokens": 45390,
+        "new_prefill_tokens": 25841,
+        "cached_ratio": 0.431,
+        "prefill_s": 48.3,
+        "ttft_s": 48.5,
+        "max_prompt_tokens": 6720,
+        "append_hit_ratio": 0.111,
+        "miss_reasons": {
+          "ssd_prefix_miss": 1,
+          "None": 9
+        }
+      }
+    },
+    "multi_file": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+      "diff": " 3 files changed, 20 insertions(+), 2 deletions(-)",
+      "new_files": [
+        "shop/discounts.py"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 252.2,
+      "agentd": {
+        "run_id": "1009-152037-7fef",
+        "task_id": "1009-152037-7fef-t11f6",
+        "status": "done",
+        "reason": "",
+        "workspace": "/Users/mac/.local/share/agentd/bench/20261009-151748-agentd-nothink-auto/multi_file/repo",
+        "branch": null,
+        "final_summary": "Discount code feature fully implemented for the shop package. All 10 tests pass (exit 0). Created shop/discounts.py with CODES=[FLAT5, SAVE10] and discount_for() function. Updated shop/cart.py with apply_code(code), discount() method, and modified total()/tax() to apply discount before tax. Updated shop/cli.py with --code argument and discount print. Updated shop/__init__.py to export discounts module.",
+        "sessions": 2,
+        "rounds": 18,
+        "prompt_tokens": 96674,
+        "cached_tokens": 6591,
+        "new_prefill_tokens": 90083,
+        "completion_tokens": 3391,
+        "model_s": 251.6,
+        "tool_s": 0.2,
+        "wall_s": 252.1,
+        "session_ends": [
+          "handoff",
+          "done"
+        ],
+        "diff": " 3 files changed, 20 insertions(+), 2 deletions(-)",
+        "cached_ratio": 0.068
+      },
+      "server": {
+        "requests": 18,
+        "sessions": 2,
+        "prompt_tokens": 96674,
+        "new_prefill_tokens": 90083,
+        "cached_ratio": 0.068,
+        "prefill_s": 188.4,
+        "ttft_s": 188.8,
+        "max_prompt_tokens": 8805,
+        "append_hit_ratio": 0.125,
+        "miss_reasons": {
+          "ssd_prefix_miss": 15,
+          "None": 3
+        }
+      }
+    }
+  },
+  "summary": {
+    "passed": 3,
+    "total": 3,
+    "wall_s": 420.1,
+    "prefill_s": 282.5,
+    "new_prefill_tokens": 140618,
+    "requests": 38
+  }
+}

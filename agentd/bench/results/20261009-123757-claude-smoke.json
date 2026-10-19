@@ -1,0 +1,50 @@
+{
+  "tag": "20261009-123757-claude-smoke",
+  "runner": "claude",
+  "model": "local/qwopus3.6-35b-a3b-coder-4bit",
+  "started": "20261009-123757",
+  "tasks": {
+    "implement_feature": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 15 insertions(+), 3 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 122.1,
+      "events": {
+        "system": 1,
+        "assistant:thinking": 5,
+        "assistant:text": 4,
+        "assistant:tool_use": 5,
+        "user:tool_result": 5,
+        "result": 1
+      },
+      "server": {
+        "requests": 5,
+        "sessions": 1,
+        "prompt_tokens": 110569,
+        "new_prefill_tokens": 24061,
+        "cached_ratio": 0.782,
+        "prefill_s": 84.2,
+        "ttft_s": 84.4,
+        "max_prompt_tokens": 23305,
+        "append_hit_ratio": 0.5,
+        "miss_reasons": {
+          "ssd_prefix_miss": 1,
+          "None": 4
+        }
+      }
+    }
+  },
+  "summary": {
+    "passed": 1,
+    "total": 1,
+    "wall_s": 122.1,
+    "prefill_s": 84.2,
+    "new_prefill_tokens": 24061,
+    "requests": 5
+  }
+}

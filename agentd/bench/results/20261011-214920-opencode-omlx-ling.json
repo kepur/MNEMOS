@@ -1,0 +1,179 @@
+{
+  "tag": "20261011-214920-opencode-omlx-ling",
+  "runner": "opencode",
+  "model": "Ling-3.0-flash-oQ2",
+  "started": "20261011-214920",
+  "tasks": {
+    "debug_trace": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": ", in test_weekly_summary\n    self.assertEqual(report.weekly_summary(self.entries), {\nAssertionError: {'2025-W52': 52.5, '2026-W01': 107.25, '2026-W02': 12.99} != {'2025-W52': 12.5, '2026-W01': 47.25, '2026-W02': 103.0, '2026-W03': 9.99}\n- {'2025-W52': 52.5, '2026-W01': 107.25, '2026-W02': 12.99}\n?              ^                 ^^\n\n+ {'2025-W52': 12.5, '2026-W01': 47.25, '2026-W02': 103.0, '2026-W03': 9.99}\n?              ^                 ^                   +++++++ +++++++++++\n\n\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nFAILED (failures=2)\n",
+      "diff": "",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 68.3,
+      "events": {
+        "message:user": 1,
+        "part:text": 4,
+        "message:assistant": 10,
+        "part:step-start": 10,
+        "part:tool:todowrite": 1,
+        "part:step-finish": 10,
+        "part:tool:bash": 9
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "fix_bug": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n",
+      "diff": " 1 file changed, 26 insertions(+), 2 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 227.7,
+      "events": {
+        "message:user": 1,
+        "part:text": 3,
+        "message:assistant": 10,
+        "part:step-start": 10,
+        "part:tool:todowrite": 3,
+        "part:step-finish": 9,
+        "part:tool:glob": 1,
+        "part:tool:read": 2,
+        "part:tool:bash": 2,
+        "part:tool:edit": 2,
+        "part:patch": 2
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "implement_feature": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": "---\nTraceback (most recent call last):\n  File \"/Users/mac/.local/share/agentd/bench/20261011-214920-opencode-omlx-ling/implement_feature/repo/tests/test_inventory.py\", line 50, in test_total_value\n    self.assertEqual(stocked().total_value(), 15.45)\n                     ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/mac/.local/share/agentd/bench/20261011-214920-opencode-omlx-ling/implement_feature/repo/inventory.py\", line 61, in total_value\n    raise NotImplementedError\nNotImplementedError\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nFAILED (errors=8)\n",
+      "diff": "",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 18.6,
+      "events": {
+        "message:user": 1,
+        "part:text": 1,
+        "message:assistant": 1,
+        "part:step-start": 1
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "multi_file": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": "mework/Versions/3.12/lib/python3.12/argparse.py\", line 1899, in parse_args\n    self.error(msg % ' '.join(argv))\n  File \"/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/argparse.py\", line 2665, in error\n    self.exit(2, _('%(prog)s: error: %(message)s\\n') % args)\n  File \"/opt/homebrew/Cellar/python@3.12/3.12.4/Frameworks/Python.framework/Versions/3.12/lib/python3.12/argparse.py\", line 2652, in exit\n    _sys.exit(status)\nSystemExit: 2\n\n----------------------------------------------------------------------\nRan 10 tests in 0.002s\n\nFAILED (errors=1)\n",
+      "diff": " 1 file changed, 19 insertions(+), 2 deletions(-)",
+      "new_files": [
+        "shop/discounts.py"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 269.0,
+      "events": {
+        "message:user": 1,
+        "part:text": 5,
+        "message:assistant": 7,
+        "part:step-start": 7,
+        "part:tool:todowrite": 2,
+        "part:step-finish": 6,
+        "part:tool:bash": 7,
+        "part:tool:write": 1,
+        "part:patch": 2,
+        "part:tool:edit": 1
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "refactor_rename": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": "is_deprecated_alias (test_rename.RenameTests.test_old_name_is_deprecated_alias)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/mac/.local/share/agentd/bench/20261011-214920-opencode-omlx-ling/refactor_rename/repo/tests/test_rename.py\", line 24, in test_old_name_is_deprecated_alias\n    self.assertTrue(any(issubclass(w.category, DeprecationWarning) for w in caught))\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=2, errors=1)\n",
+      "diff": "",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 2.0,
+      "events": {
+        "message:user": 1,
+        "part:text": 1,
+        "message:assistant": 1,
+        "part:step-start": 1
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    }
+  },
+  "summary": {
+    "passed": 1,
+    "total": 5,
+    "wall_s": 585.6,
+    "prefill_s": 0,
+    "new_prefill_tokens": 0,
+    "requests": 0
+  }
+}

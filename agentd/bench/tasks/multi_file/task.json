@@ -1,0 +1,4 @@
+{
+  "goal": "给 shop 包加上折扣码功能：新建 shop/discounts.py 定义折扣码；Cart 增加 apply_code(code)；Cart.total() 先折扣再算税；命令行 shop/cli.py 增加 --code 参数。具体规则以 tests/test_discounts.py 为准，让 tests/ 中的全部测试通过。不要修改 tests/ 下的文件。",
+  "accept": "python3 -m unittest discover -s tests"
+}

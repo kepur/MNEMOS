@@ -1,0 +1,194 @@
+{
+  "tag": "20261011-212811-opencode-omlx-nemotron",
+  "runner": "opencode",
+  "model": "NVIDIA-Nemotron-3.5-Lightning-30B-A3B-MLX-4bit",
+  "started": "20261011-212811",
+  "tasks": {
+    "debug_trace": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "diff": " 1 file changed, 3 insertions(+), 6 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 75.5,
+      "events": {
+        "message:user": 1,
+        "part:text": 7,
+        "message:assistant": 6,
+        "part:step-start": 6,
+        "part:tool:bash": 2,
+        "part:step-finish": 6,
+        "part:tool:read": 4,
+        "part:tool:glob": 1,
+        "part:tool:edit": 1,
+        "part:patch": 1
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "fix_bug": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 4 insertions(+), 2 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 115.5,
+      "events": {
+        "message:user": 1,
+        "part:text": 8,
+        "message:assistant": 7,
+        "part:step-start": 7,
+        "part:tool:read": 3,
+        "part:tool:glob": 2,
+        "part:step-finish": 7,
+        "part:tool:bash": 2,
+        "part:tool:edit": 2,
+        "part:patch": 2
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "implement_feature": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 18 insertions(+), 5 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 48.3,
+      "events": {
+        "message:user": 1,
+        "part:text": 8,
+        "message:assistant": 7,
+        "part:step-start": 7,
+        "part:tool:read": 3,
+        "part:tool:glob": 1,
+        "part:step-finish": 7,
+        "part:tool:edit": 3,
+        "part:patch": 3,
+        "part:tool:bash": 1
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "multi_file": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+      "diff": " 2 files changed, 19 insertions(+), 1 deletion(-)",
+      "new_files": [
+        "shop/discounts.py"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 379.9,
+      "events": {
+        "message:user": 1,
+        "part:text": 19,
+        "message:assistant": 18,
+        "part:step-start": 18,
+        "part:tool:task": 1,
+        "part:step-finish": 18,
+        "part:tool:read": 10,
+        "part:tool:bash": 4,
+        "part:tool:write": 2,
+        "part:patch": 6,
+        "part:tool:edit": 6
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "refactor_rename": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK\n",
+      "diff": " 8 files changed, 27 insertions(+), 17 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 163.4,
+      "events": {
+        "message:user": 1,
+        "part:text": 24,
+        "message:assistant": 23,
+        "part:step-start": 23,
+        "part:tool:task": 1,
+        "part:step-finish": 23,
+        "part:tool:read": 12,
+        "part:tool:edit": 14,
+        "part:patch": 14,
+        "part:tool:bash": 4
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    }
+  },
+  "summary": {
+    "passed": 5,
+    "total": 5,
+    "wall_s": 782.6,
+    "prefill_s": 0,
+    "new_prefill_tokens": 0,
+    "requests": 0
+  }
+}

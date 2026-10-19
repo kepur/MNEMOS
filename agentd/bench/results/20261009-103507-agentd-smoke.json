@@ -1,0 +1,65 @@
+{
+  "tag": "20261009-103507-agentd-smoke",
+  "runner": "agentd",
+  "model": "local/qwopus3.6-35b-a3b-coder-4bit",
+  "started": "20261009-103507",
+  "tasks": {
+    "fix_bug": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 14 insertions(+), 2 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 121.5,
+      "agentd": {
+        "run_id": "1009-103508-3bfc",
+        "task_id": "1009-103508-3bfc-taf41",
+        "status": "done",
+        "reason": "",
+        "workspace": "/Users/mac/.local/share/agentd/bench/20261009-103507-agentd-smoke/fix_bug/repo",
+        "branch": null,
+        "final_summary": "Fixed textstats.py with two changes:\n\n1. **`words()` function** (line 4-17): Replaced the naive `text.split()` with regex-based splitting. The old implementation simply split on whitespace, ignoring punctuation and apostrophe rules. The new implementation uses `re.split(r\"[^a-zA-Z0-9']\", text)` to split on all non-alphanumeric characters except apostrophes, then strips outer apostrophes from each token (keeping inner apostrophes like \"don't\").\n\n2. **`top_words()` tie-breaking** (line 41): Changed the sort key from `lambda kv: -kv[1]` to `lambda kv: (-kv[1], kv[0])` so that words with equal counts are ordered alphabetically (ascending), matching the documented behavior.\n\nAll 8 tests pass.",
+        "sessions": 1,
+        "rounds": 6,
+        "prompt_tokens": 19858,
+        "cached_tokens": 2188,
+        "new_prefill_tokens": 17670,
+        "completion_tokens": 1099,
+        "model_s": 121.1,
+        "tool_s": 0.1,
+        "wall_s": 121.4,
+        "session_ends": [
+          "done"
+        ],
+        "diff": " 1 file changed, 14 insertions(+), 2 deletions(-)",
+        "cached_ratio": 0.11
+      },
+      "server": {
+        "requests": 6,
+        "sessions": 1,
+        "prompt_tokens": 19858,
+        "new_prefill_tokens": 17670,
+        "cached_ratio": 0.11,
+        "prefill_s": 70.2,
+        "ttft_s": 70.4,
+        "max_prompt_tokens": 4045,
+        "append_hit_ratio": 0.2,
+        "miss_reasons": {
+          "ssd_prefix_miss": 5,
+          "None": 1
+        }
+      }
+    }
+  },
+  "summary": {
+    "passed": 1,
+    "total": 1,
+    "wall_s": 121.5,
+    "prefill_s": 70.2,
+    "new_prefill_tokens": 17670,
+    "requests": 6
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "tag": "20261009-123457-qwen-smoke",
+  "runner": "qwen",
+  "model": "local/qwopus3.6-35b-a3b-coder-4bit",
+  "started": "20261009-123457",
+  "tasks": {
+    "implement_feature": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 16 insertions(+), 3 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 172.2,
+      "events": {
+        "system": 1,
+        "stream_event": 1,
+        "assistant:text": 5,
+        "assistant:tool_use": 4,
+        "user:tool_result": 4,
+        "result": 1
+      },
+      "server": {
+        "requests": 9,
+        "sessions": 3,
+        "prompt_tokens": 121686,
+        "new_prefill_tokens": 32192,
+        "cached_ratio": 0.735,
+        "prefill_s": 86.3,
+        "ttft_s": 86.5,
+        "max_prompt_tokens": 15205,
+        "append_hit_ratio": 0.167,
+        "miss_reasons": {
+          "None": 7,
+          "ssd_prefix_miss": 2
+        }
+      }
+    }
+  },
+  "summary": {
+    "passed": 1,
+    "total": 1,
+    "wall_s": 172.2,
+    "prefill_s": 86.3,
+    "new_prefill_tokens": 32192,
+    "requests": 9
+  }
+}

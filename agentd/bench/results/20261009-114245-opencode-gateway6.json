@@ -1,0 +1,158 @@
+{
+  "tag": "20261009-114245-opencode-gateway6",
+  "runner": "opencode",
+  "model": "local/qwopus3.6-35b-a3b-coder-4bit",
+  "started": "20261009-114245",
+  "tasks": {
+    "debug_trace": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "diff": " 1 file changed, 1 insertion(+), 1 deletion(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 170.0,
+      "events": {
+        "message:user": 1,
+        "part:text": 9,
+        "message:assistant": 10,
+        "part:step-start": 10,
+        "part:tool:bash": 4,
+        "part:step-finish": 10,
+        "part:tool:read": 4,
+        "part:tool:edit": 1,
+        "part:patch": 1
+      },
+      "server": {
+        "requests": 15,
+        "sessions": 1,
+        "prompt_tokens": 89219,
+        "new_prefill_tokens": 17720,
+        "cached_ratio": 0.801,
+        "prefill_s": 72.1,
+        "ttft_s": 72.3,
+        "max_prompt_tokens": 8334,
+        "append_hit_ratio": 0.071,
+        "miss_reasons": {
+          "ssd_prefix_miss": 1,
+          "None": 14
+        }
+      }
+    },
+    "fix_bug": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 20 insertions(+), 2 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 95.3,
+      "events": {
+        "message:user": 1,
+        "part:text": 7,
+        "message:assistant": 8,
+        "part:step-start": 8,
+        "part:tool:read": 2,
+        "part:step-finish": 8,
+        "part:tool:glob": 1,
+        "part:tool:edit": 2,
+        "part:patch": 2,
+        "part:tool:bash": 2
+      },
+      "server": {
+        "requests": 12,
+        "sessions": 1,
+        "prompt_tokens": 51009,
+        "new_prefill_tokens": 13385,
+        "cached_ratio": 0.738,
+        "prefill_s": 44.4,
+        "ttft_s": 44.5,
+        "max_prompt_tokens": 5262,
+        "append_hit_ratio": 0.0,
+        "miss_reasons": {
+          "None": 12
+        }
+      }
+    },
+    "implement_feature": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 16 insertions(+), 3 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 47.9,
+      "events": {
+        "message:user": 1,
+        "part:text": 2,
+        "message:assistant": 5,
+        "part:step-start": 5,
+        "part:tool:bash": 2,
+        "part:step-finish": 5,
+        "part:tool:read": 2,
+        "part:tool:edit": 1,
+        "part:patch": 1
+      },
+      "server": {
+        "requests": 4,
+        "sessions": 1,
+        "prompt_tokens": 17842,
+        "new_prefill_tokens": 7793,
+        "cached_ratio": 0.563,
+        "prefill_s": 16.5,
+        "ttft_s": 16.6,
+        "max_prompt_tokens": 5251,
+        "append_hit_ratio": 0.333,
+        "miss_reasons": {
+          "None": 3,
+          "ssd_prefix_miss": 1
+        }
+      }
+    },
+    "multi_file": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+      "diff": " 2 files changed, 31 insertions(+), 6 deletions(-)",
+      "new_files": [
+        "shop/discounts.py"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 250.9,
+      "events": {
+        "message:user": 1,
+        "part:text": 6,
+        "message:assistant": 13,
+        "part:step-start": 13,
+        "part:tool:bash": 5,
+        "part:step-finish": 13,
+        "part:tool:read": 6,
+        "part:tool:write": 6,
+        "part:patch": 6
+      },
+      "server": {
+        "requests": 14,
+        "sessions": 1,
+        "prompt_tokens": 102029,
+        "new_prefill_tokens": 49010,
+        "cached_ratio": 0.52,
+        "prefill_s": 127.9,
+        "ttft_s": 128.1,
+        "max_prompt_tokens": 9573,
+        "append_hit_ratio": 0.154,
+        "miss_reasons": {
+          "None": 9,
+          "ssd_prefix_miss": 5
+        }
+      }
+    }
+  }
+}

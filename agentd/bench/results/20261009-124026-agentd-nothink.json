@@ -1,0 +1,260 @@
+{
+  "tag": "20261009-124026-agentd-nothink",
+  "runner": "agentd",
+  "model": "local/qwopus3.6-35b-a3b-coder-4bit",
+  "started": "20261009-124026",
+  "tasks": {
+    "debug_trace": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "diff": " 1 file changed, 1 insertion(+), 1 deletion(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 195.3,
+      "agentd": {
+        "run_id": "1009-124026-c6c0",
+        "task_id": "1009-124026-c6c0-td015",
+        "status": "done",
+        "reason": "",
+        "workspace": "/Users/mac/.local/share/agentd/bench/20261009-124026-agentd-nothink/debug_trace/repo",
+        "branch": null,
+        "final_summary": "Fixed `app/dates.py` line 24: changed `%U` to `%G-W%V`. The `week_key` function was using `%U` (US-style, weeks starting on Sunday), but ISO-8601 weeks start on Monday and use the ISO week-numbering year. The correct format string is `%G-W%V`, which gives the ISO year (`%G`) and ISO week number (`%V`). This caused 4 entries (Dec 29, Jan 4, Jan 5, Jan 12) to be grouped into 3 weeks instead of 4, producing wrong totals and missing the 4th week key.",
+        "sessions": 1,
+        "rounds": 10,
+        "prompt_tokens": 43211,
+        "cached_tokens": 5120,
+        "new_prefill_tokens": 38091,
+        "completion_tokens": 995,
+        "model_s": 194.8,
+        "tool_s": 0.1,
+        "wall_s": 195.2,
+        "session_ends": [
+          "done"
+        ],
+        "diff": " 1 file changed, 1 insertion(+), 1 deletion(-)",
+        "cached_ratio": 0.118
+      },
+      "server": {
+        "requests": 10,
+        "sessions": 1,
+        "prompt_tokens": 43211,
+        "new_prefill_tokens": 38091,
+        "cached_ratio": 0.118,
+        "prefill_s": 135.0,
+        "ttft_s": 140.5,
+        "max_prompt_tokens": 5628,
+        "append_hit_ratio": 0.0,
+        "miss_reasons": {
+          "None": 10
+        }
+      }
+    },
+    "fix_bug": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 16 insertions(+), 2 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 128.4,
+      "agentd": {
+        "run_id": "1009-124341-42f0",
+        "task_id": "1009-124341-42f0-t06ab",
+        "status": "done",
+        "reason": "",
+        "workspace": "/Users/mac/.local/share/agentd/bench/20261009-124026-agentd-nothink/fix_bug/repo",
+        "branch": null,
+        "final_summary": "Fixed two bugs in textstats.py:\n\n1. **`words()`** — was just splitting on whitespace, not removing punctuation or handling apostrophes/hyphens. Rewrote to use `re.split(r'[^a-zA-Z0-9\\']+', text)` to split on any non-alphanumeric character (except apostrophes), then strip outer apostrophes from each token while preserving inner ones (like \"don't\").\n\n2. **`top_words()`** — tie-breaking was missing. Changed `key=lambda kv: -kv[1]` to `key=lambda kv: (-kv[1], kv[0])` so words with the same count are sorted alphabetically.\n\nAll 8 tests now pass.",
+        "sessions": 1,
+        "rounds": 7,
+        "prompt_tokens": 25467,
+        "cached_tokens": 3723,
+        "new_prefill_tokens": 21744,
+        "completion_tokens": 1087,
+        "model_s": 127.9,
+        "tool_s": 0.1,
+        "wall_s": 128.2,
+        "session_ends": [
+          "done"
+        ],
+        "diff": " 1 file changed, 16 insertions(+), 2 deletions(-)",
+        "cached_ratio": 0.146
+      },
+      "server": {
+        "requests": 7,
+        "sessions": 1,
+        "prompt_tokens": 25467,
+        "new_prefill_tokens": 21744,
+        "cached_ratio": 0.146,
+        "prefill_s": 77.0,
+        "ttft_s": 78.7,
+        "max_prompt_tokens": 4780,
+        "append_hit_ratio": 0.0,
+        "miss_reasons": {
+          "None": 7
+        }
+      }
+    },
+    "implement_feature": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 15 insertions(+), 3 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 426.1,
+      "agentd": {
+        "run_id": "1009-124550-0f10",
+        "task_id": "1009-124550-0f10-t8cb9",
+        "status": "done",
+        "reason": "",
+        "workspace": "/Users/mac/.local/share/agentd/bench/20261009-124026-agentd-nothink/implement_feature/repo",
+        "branch": null,
+        "final_summary": "Implemented three methods in Inventory class:\n\n1. **remove(name, qty)** (inventory.py:51-61): Checks for unknown items (KeyError), validates qty (ValueError), subtracts from stock, deletes the item when qty reaches zero, and returns remaining quantity.\n\n2. **low_stock(threshold)** (inventory.py:63-68): Filters items with qty < threshold, sorts by (quantity, name) tuple, and returns just the names.\n\n3. **total_value()** (inventory.py:70-73): Sums qty * price for all items and rounds to 2 decimals, returning 0.0 for empty inventory.\n\nAll 8 tests pass (exit 0).",
+        "sessions": 1,
+        "rounds": 9,
+        "prompt_tokens": 40021,
+        "cached_tokens": 4207,
+        "new_prefill_tokens": 35814,
+        "completion_tokens": 1533,
+        "model_s": 425.7,
+        "tool_s": 0.1,
+        "wall_s": 426.0,
+        "session_ends": [
+          "done"
+        ],
+        "diff": " 1 file changed, 15 insertions(+), 3 deletions(-)",
+        "cached_ratio": 0.105
+      },
+      "server": {
+        "requests": 9,
+        "sessions": 1,
+        "prompt_tokens": 40021,
+        "new_prefill_tokens": 35814,
+        "cached_ratio": 0.105,
+        "prefill_s": 212.3,
+        "ttft_s": 218.7,
+        "max_prompt_tokens": 6263,
+        "append_hit_ratio": 0.0,
+        "miss_reasons": {
+          "None": 9
+        }
+      }
+    },
+    "multi_file": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+      "diff": " 2 files changed, 31 insertions(+), 2 deletions(-)",
+      "new_files": [
+        "shop/discounts.py"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 576.3,
+      "agentd": {
+        "run_id": "1009-125256-ea7e",
+        "task_id": "1009-125256-ea7e-td180",
+        "status": "done",
+        "reason": "",
+        "workspace": "/Users/mac/.local/share/agentd/bench/20261009-124026-agentd-nothink/multi_file/repo",
+        "branch": null,
+        "final_summary": "Implemented discount code feature:\n- Created shop/discounts.py with CODES dict (SAVE10: 10% off, FLAT5: $5 off with $20 minimum)\n- Added apply_code(code) and discount() methods to Cart in shop/cart.py\n- Modified Cart.total() and tax() to apply discount before calculating tax\n- Updated CLI in shop/cli.py to accept --code argument and print discount line\nAll 10 tests pass (exit 0).",
+        "sessions": 1,
+        "rounds": 11,
+        "prompt_tokens": 49491,
+        "cached_tokens": 5958,
+        "new_prefill_tokens": 43533,
+        "completion_tokens": 1748,
+        "model_s": 461.4,
+        "tool_s": 0.1,
+        "wall_s": 576.1,
+        "session_ends": [
+          "done"
+        ],
+        "diff": " 2 files changed, 31 insertions(+), 2 deletions(-)",
+        "cached_ratio": 0.12
+      },
+      "server": {
+        "requests": 12,
+        "sessions": 1,
+        "prompt_tokens": 52889,
+        "new_prefill_tokens": 44711,
+        "cached_ratio": 0.155,
+        "prefill_s": 230.6,
+        "ttft_s": 236.1,
+        "max_prompt_tokens": 6346,
+        "append_hit_ratio": 0.091,
+        "miss_reasons": {
+          "None": 12
+        }
+      }
+    },
+    "refactor_rename": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nOK\n",
+      "diff": " 8 files changed, 28 insertions(+), 17 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 1014.4,
+      "agentd": {
+        "run_id": "1009-130233-1078",
+        "task_id": "1009-130233-1078-t1618",
+        "status": "done",
+        "reason": "",
+        "workspace": "/Users/mac/.local/share/agentd/bench/20261009-124026-agentd-nothink/refactor_rename/repo",
+        "branch": null,
+        "final_summary": "Renamed calc_tax to compute_tax in billing/invoice.py by updating the call on line 28 from calc_tax to compute_tax. The import was already updated in a previous session. All 4 tests pass.",
+        "sessions": 3,
+        "rounds": 36,
+        "prompt_tokens": 283832,
+        "cached_tokens": 19818,
+        "new_prefill_tokens": 264014,
+        "completion_tokens": 4451,
+        "model_s": 1013.7,
+        "tool_s": 0.2,
+        "wall_s": 1014.3,
+        "session_ends": [
+          "handoff",
+          "handoff",
+          "done"
+        ],
+        "diff": " 8 files changed, 28 insertions(+), 17 deletions(-)",
+        "cached_ratio": 0.07
+      },
+      "server": {
+        "requests": 36,
+        "sessions": 3,
+        "prompt_tokens": 283832,
+        "new_prefill_tokens": 264014,
+        "cached_ratio": 0.07,
+        "prefill_s": 559.5,
+        "ttft_s": 570.5,
+        "max_prompt_tokens": 13428,
+        "append_hit_ratio": 0.03,
+        "miss_reasons": {
+          "None": 36
+        }
+      }
+    }
+  },
+  "summary": {
+    "passed": 5,
+    "total": 5,
+    "wall_s": 2340.5,
+    "prefill_s": 1214.4,
+    "new_prefill_tokens": 404374,
+    "requests": 74
+  }
+}

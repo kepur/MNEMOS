@@ -1,0 +1,191 @@
+{
+  "tag": "20261011-214150-opencode-omlx-k2",
+  "runner": "opencode",
+  "model": "K2-Horizon-MoVA-36B-A4B-MLX-4bit",
+  "started": "20261011-214150",
+  "tasks": {
+    "debug_trace": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "diff": " 1 file changed, 1 insertion(+), 1 deletion(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 66.5,
+      "events": {
+        "message:user": 1,
+        "part:text": 11,
+        "message:assistant": 10,
+        "part:step-start": 10,
+        "part:tool:bash": 4,
+        "part:step-finish": 10,
+        "part:tool:read": 4,
+        "part:tool:edit": 1,
+        "part:patch": 1
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "fix_bug": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 15 insertions(+), 2 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 68.0,
+      "events": {
+        "message:user": 1,
+        "part:text": 10,
+        "message:assistant": 9,
+        "part:step-start": 9,
+        "part:tool:bash": 5,
+        "part:step-finish": 9,
+        "part:tool:read": 2,
+        "part:tool:edit": 3,
+        "part:patch": 3
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "implement_feature": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 16 insertions(+), 3 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 42.3,
+      "events": {
+        "message:user": 1,
+        "part:text": 7,
+        "message:assistant": 6,
+        "part:step-start": 6,
+        "part:tool:bash": 2,
+        "part:tool:glob": 2,
+        "part:step-finish": 6,
+        "part:tool:read": 2,
+        "part:tool:edit": 1,
+        "part:patch": 1
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "multi_file": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+      "diff": " 2 files changed, 18 insertions(+), 2 deletions(-)",
+      "new_files": [
+        "shop/discounts.py"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 123.6,
+      "events": {
+        "message:user": 1,
+        "part:text": 8,
+        "message:assistant": 7,
+        "part:step-start": 7,
+        "part:tool:bash": 2,
+        "part:step-finish": 7,
+        "part:tool:read": 6,
+        "part:tool:write": 1,
+        "part:patch": 3,
+        "part:tool:edit": 2
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    },
+    "refactor_rename": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": "le \"/Users/mac/.local/share/agentd/bench/20261011-214150-opencode-omlx-k2/refactor_rename/repo/tests/test_rename.py\", line 33, in test_no_internal_use_of_old_name\n    self.assertEqual(offenders, [])\nAssertionError: Lists differ: ['invoice.py', 'quotes.py', 'refunds.py', 'reports.py', 'subscriptions.py'] != []\n\nFirst list contains 5 additional elements.\nFirst extra element 0:\n'invoice.py'\n\n- ['invoice.py', 'quotes.py', 'refunds.py', 'reports.py', 'subscriptions.py']\n+ []\n\n----------------------------------------------------------------------\nRan 4 tests in 0.002s\n\nFAILED (failures=1, errors=1)\n",
+      "diff": " 3 files changed, 13 insertions(+), 5 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 130.8,
+      "events": {
+        "message:user": 1,
+        "part:text": 12,
+        "message:assistant": 11,
+        "part:step-start": 11,
+        "part:tool:bash": 4,
+        "part:step-finish": 11,
+        "part:tool:grep": 1,
+        "part:tool:read": 6,
+        "part:tool:edit": 5,
+        "part:patch": 5
+      },
+      "server": {
+        "requests": 0,
+        "sessions": 0,
+        "prompt_tokens": 0,
+        "new_prefill_tokens": 0,
+        "cached_ratio": null,
+        "prefill_s": 0,
+        "ttft_s": 0,
+        "max_prompt_tokens": 0,
+        "append_hit_ratio": null,
+        "miss_reasons": {}
+      }
+    }
+  },
+  "summary": {
+    "passed": 4,
+    "total": 5,
+    "wall_s": 431.2,
+    "prefill_s": 0,
+    "new_prefill_tokens": 0,
+    "requests": 0
+  }
+}

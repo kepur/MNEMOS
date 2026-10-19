@@ -1,0 +1,194 @@
+{
+  "tag": "20261009-145258-codex-nothink-v2",
+  "runner": "codex",
+  "model": "local/qwopus3.6-35b-a3b-coder-4bit",
+  "started": "20261009-145258",
+  "tasks": {
+    "debug_trace": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "diff": " 1 file changed, 1 insertion(+), 1 deletion(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 70.0,
+      "events": {
+        "thread.started": 1,
+        "item.completed:error": 1,
+        "turn.started": 1,
+        "item.completed:agent_message": 4,
+        "item.started:command_execution": 7,
+        "item.completed:command_execution": 7,
+        "turn.completed": 1
+      },
+      "server": {
+        "requests": 8,
+        "sessions": 1,
+        "prompt_tokens": 83289,
+        "new_prefill_tokens": 13470,
+        "cached_ratio": 0.838,
+        "prefill_s": 40.1,
+        "ttft_s": 40.3,
+        "max_prompt_tokens": 11566,
+        "append_hit_ratio": 0.286,
+        "miss_reasons": {
+          "ssd_prefix_miss": 1,
+          "None": 7
+        }
+      }
+    },
+    "fix_bug": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 8 insertions(+), 2 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 49.7,
+      "events": {
+        "thread.started": 1,
+        "item.completed:error": 1,
+        "turn.started": 1,
+        "item.completed:agent_message": 3,
+        "item.started:command_execution": 6,
+        "item.completed:command_execution": 6,
+        "turn.completed": 1
+      },
+      "server": {
+        "requests": 7,
+        "sessions": 1,
+        "prompt_tokens": 72418,
+        "new_prefill_tokens": 7222,
+        "cached_ratio": 0.9,
+        "prefill_s": 21.1,
+        "ttft_s": 21.2,
+        "max_prompt_tokens": 12017,
+        "append_hit_ratio": 0.333,
+        "miss_reasons": {
+          "None": 7
+        }
+      }
+    },
+    "implement_feature": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 15 insertions(+), 3 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 58.2,
+      "events": {
+        "thread.started": 1,
+        "item.completed:error": 1,
+        "turn.started": 1,
+        "item.completed:agent_message": 3,
+        "item.started:command_execution": 5,
+        "item.completed:command_execution": 5,
+        "turn.completed": 1
+      },
+      "server": {
+        "requests": 6,
+        "sessions": 1,
+        "prompt_tokens": 59408,
+        "new_prefill_tokens": 6835,
+        "cached_ratio": 0.885,
+        "prefill_s": 24.6,
+        "ttft_s": 24.7,
+        "max_prompt_tokens": 10918,
+        "append_hit_ratio": 0.2,
+        "miss_reasons": {
+          "None": 6
+        }
+      }
+    },
+    "multi_file": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+      "diff": " 2 files changed, 29 insertions(+), 1 deletion(-)",
+      "new_files": [
+        "shop/discounts.py"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 280.5,
+      "events": {
+        "thread.started": 1,
+        "item.completed:error": 1,
+        "turn.started": 1,
+        "item.completed:agent_message": 7,
+        "item.started:command_execution": 11,
+        "item.completed:command_execution": 11,
+        "item.started:todo_list": 1,
+        "item.updated:todo_list": 4,
+        "item.completed:todo_list": 1,
+        "turn.completed": 1
+      },
+      "server": {
+        "requests": 19,
+        "sessions": 1,
+        "prompt_tokens": 225270,
+        "new_prefill_tokens": 50091,
+        "cached_ratio": 0.778,
+        "prefill_s": 152.3,
+        "ttft_s": 152.8,
+        "max_prompt_tokens": 14050,
+        "append_hit_ratio": 0.278,
+        "miss_reasons": {
+          "None": 17,
+          "ssd_prefix_miss": 2
+        }
+      }
+    },
+    "refactor_rename": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": "l_use_of_old_name)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/mac/.local/share/agentd/bench/20261009-145258-codex-nothink-v2/refactor_rename/repo/tests/test_rename.py\", line 33, in test_no_internal_use_of_old_name\n    self.assertEqual(offenders, [])\nAssertionError: Lists differ: ['__init__.py'] != []\n\nFirst list contains 1 additional elements.\nFirst extra element 0:\n'__init__.py'\n\n- ['__init__.py']\n+ []\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=1)\n",
+      "diff": " 8 files changed, 34 insertions(+), 17 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 635.8,
+      "events": {
+        "thread.started": 1,
+        "item.completed:error": 1,
+        "turn.started": 1,
+        "item.completed:agent_message": 12,
+        "item.started:command_execution": 21,
+        "item.completed:command_execution": 21,
+        "turn.completed": 1
+      },
+      "server": {
+        "requests": 29,
+        "sessions": 1,
+        "prompt_tokens": 480670,
+        "new_prefill_tokens": 124494,
+        "cached_ratio": 0.741,
+        "prefill_s": 362.3,
+        "ttft_s": 363.1,
+        "max_prompt_tokens": 21945,
+        "append_hit_ratio": 0.286,
+        "miss_reasons": {
+          "None": 28,
+          "ssd_prefix_miss": 1
+        }
+      }
+    }
+  },
+  "summary": {
+    "passed": 4,
+    "total": 5,
+    "wall_s": 1094.2,
+    "prefill_s": 600.4,
+    "new_prefill_tokens": 202112,
+    "requests": 69
+  }
+}

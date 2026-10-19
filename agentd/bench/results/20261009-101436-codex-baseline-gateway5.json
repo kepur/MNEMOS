@@ -1,0 +1,190 @@
+{
+  "tag": "20261009-101436-codex-baseline-gateway5",
+  "runner": "codex",
+  "model": "local/qwopus3.6-35b-a3b-coder-4bit",
+  "started": "20261009-101436",
+  "tasks": {
+    "debug_trace": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": ".....\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nOK\n",
+      "diff": " 1 file changed, 1 insertion(+), 1 deletion(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 130.9,
+      "events": {
+        "thread.started": 1,
+        "item.completed:error": 1,
+        "turn.started": 1,
+        "item.completed:agent_message": 4,
+        "item.started:command_execution": 8,
+        "item.completed:command_execution": 8,
+        "turn.completed": 1
+      },
+      "server": {
+        "requests": 9,
+        "sessions": 1,
+        "prompt_tokens": 94385,
+        "new_prefill_tokens": 8087,
+        "cached_ratio": 0.914,
+        "prefill_s": 32.0,
+        "ttft_s": 32.1,
+        "max_prompt_tokens": 11834,
+        "append_hit_ratio": 0.375,
+        "miss_reasons": {
+          "None": 9
+        }
+      }
+    },
+    "fix_bug": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": ", line 12, in test_punctuation_is_removed\n    self.assertEqual(words(\"Hello, world! Hello.\"), [\"hello\", \"world\", \"hello\"])\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/mac/.local/share/agentd/bench/20261009-101436-codex-baseline-gateway5/fix_bug/repo/textstats.py\", line 14, in words\n    return [w.lower() for w in re.findall(r\"[a-zA-Z0-9]+(?:'[a-zA-Z]+)?\", text)]\n                               ^^\nNameError: name 're' is not defined. Did you forget to import 're'\n\n----------------------------------------------------------------------\nRan 8 tests in 0.002s\n\nFAILED (errors=8)\n",
+      "diff": " 1 file changed, 3 insertions(+), 2 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 210.1,
+      "events": {
+        "thread.started": 1,
+        "item.completed:error": 1,
+        "turn.started": 1,
+        "item.completed:agent_message": 6,
+        "item.started:command_execution": 9,
+        "item.completed:command_execution": 9,
+        "turn.completed": 1
+      },
+      "server": {
+        "requests": 11,
+        "sessions": 1,
+        "prompt_tokens": 137389,
+        "new_prefill_tokens": 19358,
+        "cached_ratio": 0.859,
+        "prefill_s": 67.7,
+        "ttft_s": 67.9,
+        "max_prompt_tokens": 15552,
+        "append_hit_ratio": 0.5,
+        "miss_reasons": {
+          "None": 11
+        }
+      }
+    },
+    "implement_feature": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": "ack (most recent call last):\n  File \"/Users/mac/.local/share/agentd/bench/20261009-101436-codex-baseline-gateway5/implement_feature/repo/tests/test_inventory.py\", line 50, in test_total_value\n    self.assertEqual(stocked().total_value(), 15.45)\n                     ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/mac/.local/share/agentd/bench/20261009-101436-codex-baseline-gateway5/implement_feature/repo/inventory.py\", line 61, in total_value\n    raise NotImplementedError\nNotImplementedError\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nFAILED (errors=8)\n",
+      "diff": "",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 91.1,
+      "events": {
+        "thread.started": 1,
+        "item.completed:error": 1,
+        "turn.started": 1,
+        "item.completed:agent_message": 4,
+        "item.started:command_execution": 6,
+        "item.completed:command_execution": 6,
+        "turn.completed": 1
+      },
+      "server": {
+        "requests": 6,
+        "sessions": 1,
+        "prompt_tokens": 60972,
+        "new_prefill_tokens": 4272,
+        "cached_ratio": 0.93,
+        "prefill_s": 17.2,
+        "ttft_s": 17.4,
+        "max_prompt_tokens": 11104,
+        "append_hit_ratio": 0.2,
+        "miss_reasons": {
+          "None": 6
+        }
+      }
+    },
+    "multi_file": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+      "diff": " 2 files changed, 16 insertions(+), 2 deletions(-)",
+      "new_files": [
+        "shop/discounts.py"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 257.2,
+      "events": {
+        "thread.started": 1,
+        "item.completed:error": 1,
+        "turn.started": 1,
+        "item.completed:agent_message": 5,
+        "item.started:command_execution": 10,
+        "item.completed:command_execution": 10,
+        "turn.completed": 1
+      },
+      "server": {
+        "requests": 14,
+        "sessions": 1,
+        "prompt_tokens": 156426,
+        "new_prefill_tokens": 32684,
+        "cached_ratio": 0.791,
+        "prefill_s": 113.0,
+        "ttft_s": 113.3,
+        "max_prompt_tokens": 12913,
+        "append_hit_ratio": 0.231,
+        "miss_reasons": {
+          "None": 13,
+          "ssd_prefix_miss": 1
+        }
+      }
+    },
+    "refactor_rename": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": "precated_alias (test_rename.RenameTests.test_old_name_is_deprecated_alias)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/mac/.local/share/agentd/bench/20261009-101436-codex-baseline-gateway5/refactor_rename/repo/tests/test_rename.py\", line 24, in test_old_name_is_deprecated_alias\n    self.assertTrue(any(issubclass(w.category, DeprecationWarning) for w in caught))\nAssertionError: False is not true\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=2, errors=1)\n",
+      "diff": "",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 525.0,
+      "events": {
+        "thread.started": 1,
+        "item.completed:error": 1,
+        "turn.started": 1,
+        "item.completed:agent_message": 5,
+        "item.started:command_execution": 8,
+        "item.completed:command_execution": 8,
+        "turn.completed": 1
+      },
+      "server": {
+        "requests": 13,
+        "sessions": 1,
+        "prompt_tokens": 197307,
+        "new_prefill_tokens": 59395,
+        "cached_ratio": 0.699,
+        "prefill_s": 191.7,
+        "ttft_s": 192.0,
+        "max_prompt_tokens": 18069,
+        "append_hit_ratio": 0.5,
+        "miss_reasons": {
+          "None": 12,
+          "ssd_prefix_miss": 1
+        }
+      }
+    }
+  },
+  "summary": {
+    "passed": 2,
+    "total": 5,
+    "wall_s": 1214.3,
+    "prefill_s": 421.6,
+    "new_prefill_tokens": 123796,
+    "requests": 53
+  }
+}

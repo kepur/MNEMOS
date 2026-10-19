@@ -1,0 +1,185 @@
+{
+  "tag": "20261009-133601-qwen-nothink",
+  "runner": "qwen",
+  "model": "local/qwopus3.6-35b-a3b-coder-4bit",
+  "started": "20261009-133601",
+  "tasks": {
+    "debug_trace": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": "-133601-qwen-nothink/debug_trace/repo/tests/test_report.py\", line 25, in test_weekly_summary\n    self.assertEqual(report.weekly_summary(self.entries), {\nAssertionError: {'2025-W01': 40.0, '2025-W52': 12.5, '2026-W01': [37 chars]9.99} != {'2025-W52': 12.5, '2026-W01': 47.25, '2026-W02':[20 chars]9.99}\n+ {'2025-W52': 12.5, '2026-W01': 47.25, '2026-W02': 103.0, '2026-W03': 9.99}\n- {'2025-W01': 40.0,\n-  '2025-W52': 12.5,\n-  '2026-W01': 7.25,\n-  '2026-W02': 103.0,\n-  '2026-W03': 9.99}\n\n----------------------------------------------------------------------\nRan 5 tests in 0.002s\n\nFAILED (failures=2)\n",
+      "diff": " 1 file changed, 1 insertion(+), 1 deletion(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 176.2,
+      "events": {
+        "system": 1,
+        "stream_event": 1,
+        "assistant:text": 3,
+        "assistant:tool_use": 6,
+        "user:tool_result": 6,
+        "result": 1
+      },
+      "server": {
+        "requests": 15,
+        "sessions": 3,
+        "prompt_tokens": 184606,
+        "new_prefill_tokens": 41473,
+        "cached_ratio": 0.775,
+        "prefill_s": 103.9,
+        "ttft_s": 104.1,
+        "max_prompt_tokens": 15821,
+        "append_hit_ratio": 0.167,
+        "miss_reasons": {
+          "ssd_prefix_miss": 3,
+          "None": 12
+        }
+      }
+    },
+    "fix_bug": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": "t):\n  File \"/Users/mac/.local/share/agentd/bench/20261009-133601-qwen-nothink/fix_bug/repo/tests/test_textstats.py\", line 33, in test_ties_alphabetical\n    self.assertEqual(top_words(text, 3), [(\"apple\", 2), (\"pear\", 2), (\"fig\", 1)])\nAssertionError: Lists differ: [('pear', 2), ('apple', 2), ('fig', 1)] != [('apple', 2), ('pear', 2), ('fig', 1)]\n\nFirst differing element 0:\n('pear', 2)\n('apple', 2)\n\n- [('pear', 2), ('apple', 2), ('fig', 1)]\n+ [('apple', 2), ('pear', 2), ('fig', 1)]\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nFAILED (failures=1)\n",
+      "diff": " 1 file changed, 18 insertions(+), 1 deletion(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 70.4,
+      "events": {
+        "system": 1,
+        "stream_event": 1,
+        "assistant:text": 3,
+        "assistant:tool_use": 3,
+        "user:tool_result": 3,
+        "result": 1
+      },
+      "server": {
+        "requests": 7,
+        "sessions": 2,
+        "prompt_tokens": 77602,
+        "new_prefill_tokens": 7059,
+        "cached_ratio": 0.909,
+        "prefill_s": 21.1,
+        "ttft_s": 21.1,
+        "max_prompt_tokens": 14544,
+        "append_hit_ratio": 0.2,
+        "miss_reasons": {
+          "None": 7
+        }
+      }
+    },
+    "implement_feature": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.000s\n\nOK\n",
+      "diff": " 1 file changed, 18 insertions(+), 3 deletions(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 172.4,
+      "events": {
+        "system": 1,
+        "stream_event": 1,
+        "assistant:text": 5,
+        "assistant:tool_use": 4,
+        "user:tool_result": 4,
+        "result": 1
+      },
+      "server": {
+        "requests": 10,
+        "sessions": 3,
+        "prompt_tokens": 130626,
+        "new_prefill_tokens": 26036,
+        "cached_ratio": 0.801,
+        "prefill_s": 87.1,
+        "ttft_s": 87.2,
+        "max_prompt_tokens": 15326,
+        "append_hit_ratio": 0.143,
+        "miss_reasons": {
+          "None": 9,
+          "ssd_prefix_miss": 1
+        }
+      }
+    },
+    "multi_file": {
+      "passed": true,
+      "accept_exit": 0,
+      "tests_tampered": false,
+      "accept_tail": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+      "diff": " 2 files changed, 15 insertions(+), 2 deletions(-)",
+      "new_files": [
+        "shop/discounts.py"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 216.0,
+      "events": {
+        "system": 1,
+        "stream_event": 1,
+        "assistant:tool_use": 13,
+        "user:tool_result": 13,
+        "assistant:text": 1,
+        "result": 1
+      },
+      "server": {
+        "requests": 15,
+        "sessions": 2,
+        "prompt_tokens": 230494,
+        "new_prefill_tokens": 12326,
+        "cached_ratio": 0.947,
+        "prefill_s": 49.6,
+        "ttft_s": 49.9,
+        "max_prompt_tokens": 18666,
+        "append_hit_ratio": 0.231,
+        "miss_reasons": {
+          "None": 15
+        }
+      }
+    },
+    "refactor_rename": {
+      "passed": false,
+      "accept_exit": 1,
+      "tests_tampered": false,
+      "accept_tail": "e/agentd/bench/20261009-133601-qwen-nothink/refactor_rename/repo/tests/test_rename.py\", line 33, in test_no_internal_use_of_old_name\n    self.assertEqual(offenders, [])\nAssertionError: Lists differ: ['__init__.py', 'exports.py', 'invoice.py'[57 chars].py'] != []\n\nFirst list contains 7 additional elements.\nFirst extra element 0:\n'__init__.py'\n\n+ []\n- ['__init__.py',\n-  'exports.py',\n-  'invoice.py',\n-  'quotes.py',\n-  'refunds.py',\n-  'reports.py',\n-  'subscriptions.py']\n\n----------------------------------------------------------------------\nRan 4 tests in 0.001s\n\nFAILED (failures=1, errors=2)\n",
+      "diff": " 1 file changed, 12 insertions(+), 1 deletion(-)",
+      "new_files": [],
+      "exit_code": 0,
+      "timed_out": false,
+      "wall_s": 148.9,
+      "events": {
+        "system": 1,
+        "stream_event": 1,
+        "assistant:text": 5,
+        "assistant:tool_use": 5,
+        "user:tool_result": 5,
+        "result": 1
+      },
+      "server": {
+        "requests": 12,
+        "sessions": 3,
+        "prompt_tokens": 160503,
+        "new_prefill_tokens": 23760,
+        "cached_ratio": 0.852,
+        "prefill_s": 74.3,
+        "ttft_s": 74.5,
+        "max_prompt_tokens": 15587,
+        "append_hit_ratio": 0.0,
+        "miss_reasons": {
+          "None": 12
+        }
+      }
+    }
+  },
+  "summary": {
+    "passed": 2,
+    "total": 5,
+    "wall_s": 783.9,
+    "prefill_s": 336.0,
+    "new_prefill_tokens": 110654,
+    "requests": 59
+  }
+}

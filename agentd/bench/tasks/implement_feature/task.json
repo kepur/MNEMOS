@@ -1,0 +1,4 @@
+{
+  "goal": "inventory.py 里 Inventory 类的 remove()、low_stock()、total_value() 还没有实现（抛 NotImplementedError）。按文档字符串实现它们，让 tests/ 中的测试全部通过。不要修改 tests/ 下的文件。",
+  "accept": "python3 -m unittest discover -s tests"
+}

@@ -1,0 +1,4 @@
+{
+  "goal": "textstats.py 的 words() 和 top_words() 行为与文档字符串不符，导致 tests/ 里的测试失败。修复 textstats.py，使其符合文档描述。不要修改 tests/ 下的文件。",
+  "accept": "python3 -m unittest discover -s tests"
+}
