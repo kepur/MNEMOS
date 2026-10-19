@@ -47,7 +47,7 @@ final class I18n {
     }
 
     private static let table: [String: [AppLanguage: String]] = [
-        "app.name": [.zh: "Codex 模型切换", .en: "Codex Model Switcher"],
+        "app.name": [.zh: "MNEMOS", .en: "MNEMOS"],
         "tab.models": [.zh: "模型与客户端", .en: "Models & Clients"],
         "tab.api": [.zh: "API 与模型接口", .en: "API Providers"],
         "tab.dashboard": [.zh: "运行监控与统计", .en: "Dashboard & Stats"],
@@ -5359,12 +5359,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
         log("app launched version=3.0 (idle-supported)")
         NSApplication.shared.setActivationPolicy(.regular)
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusItem.button?.image = NSImage(systemSymbolName: "switch.2", accessibilityDescription: "Codex 模型切换")
+        statusItem.button?.image = NSImage(systemSymbolName: "switch.2", accessibilityDescription: "MNEMOS")
         statusItem.button?.imagePosition = .imageLeading
         rebuildMenu()
+        ensureGatewayRunning()
         refreshLocalServiceStatus()
         serviceTimer = Timer.scheduledTimer(withTimeInterval: 8, repeats: true) { [weak self] _ in
             self?.refreshLocalServiceStatus()
+            self?.ensureGatewayRunning()
         }
         trafficTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
             guard let self = self, self.window?.isVisible == true else { return }
@@ -5426,6 +5428,46 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
         trafficTimer?.invalidate()
         hardwareTimer?.invalidate()
         networkTimer?.invalidate()
+    }
+
+    private func ensureGatewayRunning() {
+        guard let url = URL(string: "http://127.0.0.1:8002/v1/bridge-info") else { return }
+        var req = URLRequest(url: url)
+        req.timeoutInterval = 1.0
+        URLSession.shared.dataTask(with: req) { [weak self] _, resp, _ in
+            if let http = resp as? HTTPURLResponse, (200...299).contains(http.statusCode) {
+                return
+            }
+            DispatchQueue.global(qos: .utility).async {
+                let venvPy = "/Users/mac/.venvs/mtplx/bin/python"
+                let pythonBin = FileManager.default.fileExists(atPath: venvPy) ? venvPy : "/usr/bin/python3"
+                let candidates = [
+                    "/Users/mac/Code_Start/MNEMOS/mtplx-responses-proxy.py",
+                    "/Users/mac/bin/mtplx-responses-proxy.py"
+                ]
+                guard let script = candidates.first(where: { FileManager.default.fileExists(atPath: $0) }) else { return }
+                let task = Process()
+                task.executableURL = URL(fileURLWithPath: pythonBin)
+                task.arguments = [script, "--host", "127.0.0.1", "--port", "8002"]
+                let logDir = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Logs/CodexModelSwitcher")
+                try? FileManager.default.createDirectory(at: logDir, withIntermediateDirectories: true)
+                let logFile = logDir.appendingPathComponent("gateway.log")
+                if !FileManager.default.fileExists(atPath: logFile.path) {
+                    FileManager.default.createFile(atPath: logFile.path, contents: nil)
+                }
+                if let fh = try? FileHandle(forWritingTo: logFile) {
+                    fh.seekToEndOfFile()
+                    task.standardOutput = fh
+                    task.standardError = fh
+                }
+                try? task.run()
+                Thread.sleep(forTimeInterval: 1.5)
+                DispatchQueue.main.async {
+                    self?.refreshLocalServiceStatus()
+                    self?.pollNetworkSentinel()
+                }
+            }
+        }.resume()
     }
 
     private func showWindow() {
@@ -5519,7 +5561,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
             backing: .buffered,
             defer: false
         )
-        panel.title = "Serafina"
+        panel.title = "MNEMOS"
         panel.isRestorable = false
         panel.delegate = self
         panel.titlebarAppearsTransparent = true
@@ -5533,10 +5575,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
         panel.contentView = content
 
         let eyebrow = tonalLabel("LOCAL  ·  CODEX  ·  OPENCODE  ·  CLAUDE CODE  ·  QWEN CODE", size: 11, weight: .bold, color: Serafina.grape)
-        let title = NSTextField(labelWithString: "Serafina")
+        let title = NSTextField(labelWithString: "MNEMOS")
         title.font = Serafina.display(46)
         title.textColor = Serafina.ink
-        let subtitle = wrappingLabel("本地主模型 · 可选辅助模型 · 规划、执行、验收", size: 14, weight: .medium, color: Serafina.muted)
+        let subtitle = wrappingLabel("本地主模型 · 智能网络安全哨兵 · 规划、执行、验收", size: 14, weight: .medium, color: Serafina.muted)
         let headingText = NSStackView(views: [eyebrow, title, subtitle])
         headingText.orientation = .vertical
         headingText.alignment = .leading
