@@ -4677,7 +4677,11 @@ final class SidebarItemView: NSControl {
     }
 
     override func mouseDown(with event: NSEvent) {
-        sendAction(action, to: target)
+        isSelected = true
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.sendAction(self.action, to: self.target)
+        }
     }
 }
 
@@ -5074,6 +5078,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
     private var hardwareTimer: Timer?
     private var switchInProgress = false
     private var cliMode = false
+    private var lastActivePageIndex: Int = 0
     private lazy var configURL = home.appendingPathComponent(".codex/config.toml")
     private lazy var startScript = home.appendingPathComponent("bin/start-qwen38-daemon.sh")
     private lazy var stopScript = home.appendingPathComponent("bin/stop-qwen38.sh")
@@ -5368,8 +5373,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
             self?.refreshLocalServiceStatus()
             self?.ensureGatewayRunning()
         }
-        trafficTimer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
-            guard let self = self, self.window?.isVisible == true else { return }
+        trafficTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
+            guard let self = self, self.window?.isVisible == true, self.pagePicker?.selectedSegment == 2 else { return }
             self.pollTraffic()
         }
         hardwareTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
@@ -6904,14 +6909,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
                 item.isSelected = shouldSelect
             }
         }
+        let prev = lastActivePageIndex
+        lastActivePageIndex = selected
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        for (index, group) in pageCards.enumerated() {
-            let shouldHide = (index != selected)
-            for view in group {
-                if view.isHidden != shouldHide {
-                    view.isHidden = shouldHide
-                }
+        if prev >= 0 && prev < pageCards.count && prev != selected {
+            for view in pageCards[prev] {
+                view.isHidden = true
+            }
+        }
+        if selected < pageCards.count {
+            for view in pageCards[selected] {
+                view.isHidden = false
             }
         }
         CATransaction.commit()
@@ -6925,9 +6934,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
             return
         }
 
-        // Dispatch data synchronization asynchronously on the next runloop turn
-        // so the sidebar highlight and page switch render immediately (<1ms).
-        DispatchQueue.main.async { [weak self] in
+        // Delay data synchronization slightly (40ms) so the sidebar selection
+        // and card reveal paint immediately at 120fps with zero hitching
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.04) { [weak self] in
             guard let self = self, self.pagePicker?.selectedSegment == selected else { return }
             switch selected {
             case 0:
@@ -6936,7 +6945,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
                 self.apiModelLabel?.stringValue = I18n.translate("当前模型：\(self.localSummary(speed: true))")
                 self.apiSnippetChanged()
             case 2:
-                self.pollTraffic()
                 self.refreshHardwareAndOMLXStats()
             case 3:
                 self.refreshHardwareAndOMLXStats()
@@ -7566,15 +7574,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
                     if let ev = json["event"] as? [String: Any] {
                         self.handlePendingGatekeeperEvents([ev])
                     } else if json["bypassed"] as? Bool == true {
-                        let alert = NSAlert()
-                        alert.messageText = I18n.translate("🛡️ 父进程已在信任白名单中 (自动放行)")
-                        alert.informativeText = json["message"] as? String ?? I18n.translate("该父进程已加入永久白名单，拦截已自动跳过并放行，无弹窗提醒。")
-                        alert.addButton(withTitle: I18n.translate("确定"))
-                        alert.addButton(withTitle: I18n.translate("管理/清空白名单"))
-                        let resp = alert.runModal()
-                        if resp == .alertSecondButtonReturn {
-                            self.showGatekeeperWhitelistDialog()
-                        }
+                        self.showAsyncToast("🛡️ 父进程已在信任白名单中 (自动放行，无需二次提醒)", isSuccess: true, duration: 3.5)
                     } else {
                         self.pollNetworkSentinel()
                     }
@@ -7593,21 +7593,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
                 guard let data = data,
                       let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                       let list = json["whitelist"] as? [[String: Any]] else {
-                    let errAlert = NSAlert()
-                    errAlert.messageText = I18n.translate("获取白名单失败")
-                    errAlert.informativeText = I18n.translate("无法从网络哨兵读取当前白名单配置。")
-                    errAlert.addButton(withTitle: I18n.translate("确定"))
-                    errAlert.runModal()
+                    self.showAsyncToast("⚠️ 无法从网络哨兵读取当前白名单配置", isSuccess: false)
                     return
                 }
 
-                let alert = NSAlert()
                 if list.isEmpty {
-                    alert.messageText = I18n.translate("🛡️ Gatekeeper 信任白名单 (当前为空)")
-                    alert.informativeText = I18n.translate("当前尚未将任何父进程加入永久白名单。\n\n当发生敏感凭证外发拦截弹窗时，勾选「记住此授权：将父进程加入信任白名单」，后续该父进程的所有操作都将自动放行，不再弹窗打扰。")
-                    alert.addButton(withTitle: I18n.translate("知道了"))
-                    alert.runModal()
+                    self.showAsyncToast("🛡️ Gatekeeper 信任白名单当前为空（无永久放行父进程）", isSuccess: true, duration: 3.5)
                 } else {
+                    let alert = NSAlert()
                     alert.messageText = I18n.translate("🛡️ Gatekeeper 信任白名单 (已信任 \(list.count) 项)")
                     var text = I18n.translate("以下父进程派生的子进程外联或凭证访问将自动放行，不再弹窗打扰：\n\n")
                     for item in list {
@@ -7619,9 +7612,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
                     alert.informativeText = text
                     alert.addButton(withTitle: I18n.translate("完成"))
                     alert.addButton(withTitle: I18n.translate("清空白名单"))
-                    let resp = alert.runModal()
-                    if resp == .alertSecondButtonReturn {
-                        self.confirmClearGatekeeperWhitelist()
+                    if let win = self.window {
+                        alert.beginSheetModal(for: win) { [weak self] resp in
+                            if resp == .alertSecondButtonReturn {
+                                self?.confirmClearGatekeeperWhitelist()
+                            }
+                        }
+                    } else {
+                        let resp = alert.runModal()
+                        if resp == .alertSecondButtonReturn {
+                            self.confirmClearGatekeeperWhitelist()
+                        }
                     }
                 }
             }
@@ -7954,48 +7955,50 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
     }
 
     private func toggleStartupItemDirect(id: String, enable: Bool) {
+        let actionDesc = enable ? "开启" : "关闭"
+        showAsyncToast("⚡️ 正在\(actionDesc)自启项: \(id)...", isSuccess: true)
         guard let url = URL(string: "http://127.0.0.1:8002/v1/startup/toggle") else { return }
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let body: [String: Any] = ["id": id, "enable": enable]
         req.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        URLSession.shared.dataTask(with: req) { [weak self] data, _, _ in
+        URLSession.shared.dataTask(with: req) { [weak self] data, _, err in
             DispatchQueue.main.async {
+                guard let self = self else { return }
+                if let err = err {
+                    self.showAsyncToast("❌ 变更失败: \(err.localizedDescription)", isSuccess: false)
+                    return
+                }
                 if let data = data,
                    let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let msg = json["message"] as? String {
-                    let alert = NSAlert()
-                    alert.messageText = (json["ok"] as? Bool == true) ? "启动项变更成功" : "操作失败"
-                    alert.informativeText = msg
-                    alert.runModal()
-                    self?.pollStartupItems()
+                    let ok = json["ok"] as? Bool == true
+                    self.showAsyncToast(ok ? "✓ \(msg)" : "⚠️ \(msg)", isSuccess: ok)
+                    self.pollStartupItems()
                 }
             }
         }.resume()
     }
 
     @objc private func batchDisableStartupItems() {
-        let confirm = NSAlert()
-        confirm.messageText = "确认批量关闭非必要开机自启程序？"
-        confirm.informativeText = "系统将自动关闭并停止所有第三方后台启动项（如网盘后台、游戏启动器、自动更新程序等），以提升开机速度和续航。\n\nSerafina 与系统核心守护进程受到白名单保护，不受影响。"
-        confirm.addButton(withTitle: "一键批量关闭")
-        confirm.addButton(withTitle: "取消")
-        if confirm.runModal() != .alertFirstButtonReturn { return }
-
+        showAsyncToast("⚡️ 正在批量优化并关闭第三方开机自启程序...", isSuccess: true)
         guard let url = URL(string: "http://127.0.0.1:8002/v1/startup/batch_disable") else { return }
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
-        URLSession.shared.dataTask(with: req) { [weak self] data, _, _ in
+        URLSession.shared.dataTask(with: req) { [weak self] data, _, err in
             DispatchQueue.main.async {
+                guard let self = self else { return }
+                if let err = err {
+                    self.showAsyncToast("❌ 批量优化失败: \(err.localizedDescription)", isSuccess: false)
+                    return
+                }
                 if let data = data,
                    let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let msg = json["message"] as? String {
-                    let alert = NSAlert()
-                    alert.messageText = "自启优化完成"
-                    alert.informativeText = msg
-                    alert.runModal()
-                    self?.pollStartupItems()
+                    let ok = json["ok"] as? Bool == true
+                    self.showAsyncToast(ok ? "✓ \(msg)" : "⚠️ \(msg)", isSuccess: ok)
+                    self.pollStartupItems()
                 }
             }
         }.resume()
@@ -8475,12 +8478,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
         alert.accessoryView = input
         alert.addButton(withTitle: "加入重点监控")
         alert.addButton(withTitle: "取消")
-        if alert.runModal() == .alertFirstButtonReturn {
-            let pidStr = input.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
-            if let pid = Int(pidStr), pid > 0 {
-                addProcessToWatchlistDirect(pid)
-            } else {
-                showError(title: "无效 PID", message: "请输入有效的数值进程号。")
+        if let window = self.window {
+            alert.beginSheetModal(for: window) { [weak self] resp in
+                if resp == .alertFirstButtonReturn {
+                    let pidStr = input.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if let pid = Int(pidStr), pid > 0 {
+                        self?.addProcessToWatchlistDirect(pid)
+                    } else {
+                        self?.showAsyncToast("⚠️ 请输入有效的数值进程号", isSuccess: false)
+                    }
+                }
+            }
+        } else {
+            if alert.runModal() == .alertFirstButtonReturn {
+                let pidStr = input.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
+                if let pid = Int(pidStr), pid > 0 {
+                    addProcessToWatchlistDirect(pid)
+                } else {
+                    showAsyncToast("⚠️ 请输入有效的数值进程号", isSuccess: false)
+                }
             }
         }
     }
@@ -8498,29 +8514,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
             "enforce_prompt": false
         ]
         req.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        URLSession.shared.dataTask(with: req) { [weak self] data, _, _ in
+        showAsyncToast("⚡️ 正在将 PID \(pid) 加入重点监控...", isSuccess: true)
+        URLSession.shared.dataTask(with: req) { [weak self] data, _, err in
             DispatchQueue.main.async {
                 guard let self = self else { return }
+                if let err = err {
+                    self.showAsyncToast("❌ 纳管失败: \(err.localizedDescription)", isSuccess: false)
+                    return
+                }
                 if let data = data,
                    let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let msg = json["message"] as? String {
-                    let confirm = NSAlert()
-                    confirm.messageText = (json["ok"] as? Bool == true) ? "纳管成功" : "纳管失败"
-                    confirm.informativeText = msg + "\n\n是否立即前往「🎯 重点程序管控」页面查看与配置拦截规则？"
-                    confirm.addButton(withTitle: "前往重点管控")
-                    confirm.addButton(withTitle: "留在当前页")
-                    if confirm.runModal() == .alertFirstButtonReturn {
-                        self.pagePicker?.selectedSegment = 7
-                        self.pageChanged()
-                    } else {
-                        self.pollWatchlistItems()
-                    }
+                    let ok = json["ok"] as? Bool ?? false
+                    self.showAsyncToast(ok ? "✓ \(msg)" : "⚠️ \(msg)", isSuccess: ok)
+                    self.pollWatchlistItems()
+                    self.refreshCandidateProcesses()
                 }
             }
         }.resume()
     }
 
     private func removeProcessFromWatchlist(_ pid: Int) {
+        showAsyncToast("正在从重点监控中移除 PID \(pid)...", isSuccess: true)
         guard let url = URL(string: "http://127.0.0.1:8002/v1/watchlist/remove") else { return }
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
@@ -8529,56 +8544,67 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
         req.httpBody = try? JSONSerialization.data(withJSONObject: body)
         URLSession.shared.dataTask(with: req) { [weak self] _, _, _ in
             DispatchQueue.main.async {
+                self?.showAsyncToast("✓ 已从重点监控列表移出", isSuccess: true)
                 self?.pollWatchlistItems()
+                self?.refreshCandidateProcesses()
             }
         }.resume()
     }
 
     private func pauseWatchlistProcess(_ pid: Int) {
+        showAsyncToast("⚡️ 正在挂起冻结进程 PID \(pid)...", isSuccess: true)
         guard let url = URL(string: "http://127.0.0.1:8002/v1/watchlist/pause") else { return }
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let body: [String: Any] = ["pid": pid]
         req.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        URLSession.shared.dataTask(with: req) { [weak self] data, _, _ in
+        URLSession.shared.dataTask(with: req) { [weak self] data, _, err in
             DispatchQueue.main.async {
+                guard let self = self else { return }
+                if let err = err {
+                    self.showAsyncToast("❌ 冻结失败: \(err.localizedDescription)", isSuccess: false)
+                    return
+                }
                 if let data = data,
                    let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let msg = json["message"] as? String {
-                    let alert = NSAlert()
-                    alert.messageText = (json["ok"] as? Bool == true) ? "进程冻结挂起成功 (SIGSTOP)" : "冻结失败"
-                    alert.informativeText = msg
-                    alert.runModal()
-                    self?.pollWatchlistItems()
+                    let ok = json["ok"] as? Bool ?? false
+                    self.showAsyncToast(ok ? "✓ \(msg)" : "⚠️ \(msg)", isSuccess: ok)
+                    self.pollWatchlistItems()
                 }
             }
         }.resume()
     }
 
     private func resumeWatchlistProcess(_ pid: Int) {
+        showAsyncToast("⚡️ 正在恢复放行进程 PID \(pid)...", isSuccess: true)
         guard let url = URL(string: "http://127.0.0.1:8002/v1/watchlist/resume") else { return }
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let body: [String: Any] = ["pid": pid]
         req.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        URLSession.shared.dataTask(with: req) { [weak self] data, _, _ in
+        URLSession.shared.dataTask(with: req) { [weak self] data, _, err in
             DispatchQueue.main.async {
+                guard let self = self else { return }
+                if let err = err {
+                    self.showAsyncToast("❌ 恢复失败: \(err.localizedDescription)", isSuccess: false)
+                    return
+                }
                 if let data = data,
                    let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let msg = json["message"] as? String {
-                    let alert = NSAlert()
-                    alert.messageText = (json["ok"] as? Bool == true) ? "进程已恢复执行 (SIGCONT)" : "放行失败"
-                    alert.informativeText = msg
-                    alert.runModal()
-                    self?.pollWatchlistItems()
+                    let ok = json["ok"] as? Bool ?? false
+                    self.showAsyncToast(ok ? "✓ \(msg)" : "⚠️ \(msg)", isSuccess: ok)
+                    self.pollWatchlistItems()
                 }
             }
         }.resume()
     }
 
     private func updateWatchlistRules(pid: Int, blockTypes: [String], customExtensions: [String], blockLarge: Bool, largeMb: Double, sandboxDir: String, enforcePrompt: Bool) {
+        showAsyncToast("⚡️ 正在更新防护拦截策略...", isSuccess: true)
         guard let url = URL(string: "http://127.0.0.1:8002/v1/watchlist/update_rules") else { return }
         var req = URLRequest(url: url)
         req.httpMethod = "POST"
@@ -8593,16 +8619,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
             "enforce_prompt": enforcePrompt
         ]
         req.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        URLSession.shared.dataTask(with: req) { [weak self] data, _, _ in
+        URLSession.shared.dataTask(with: req) { [weak self] data, _, err in
             DispatchQueue.main.async {
+                guard let self = self else { return }
+                if let err = err {
+                    self.showAsyncToast("❌ 策略更新失败: \(err.localizedDescription)", isSuccess: false)
+                    return
+                }
                 if let data = data,
                    let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let msg = json["message"] as? String {
-                    let alert = NSAlert()
-                    alert.messageText = (json["ok"] as? Bool == true) ? "拦截规则更新成功" : "更新失败"
-                    alert.informativeText = msg
-                    alert.runModal()
-                    self?.pollWatchlistItems()
+                    let ok = json["ok"] as? Bool ?? false
+                    self.showAsyncToast(ok ? "✓ \(msg)" : "⚠️ \(msg)", isSuccess: ok)
+                    self.pollWatchlistItems()
                 }
             }
         }.resume()
@@ -8938,12 +8967,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
                 self?.updatePowerButtonVisuals()
                 self?.refreshLocalServiceStatus()
                 self?.refreshHardwareAndOMLXStats()
-
-                let alert = NSAlert()
-                alert.messageText = "模型显存已释放"
-                alert.informativeText = "已成功卸载本地模型权重并清空 Unified Memory 显存占用。\n系统已进入空载待命状态。"
-                alert.alertStyle = .informational
-                alert.runModal()
+                self?.showAsyncToast("✓ 模型显存已释放，统一内存已恢复空载", isSuccess: true)
             }
         }.resume()
     }
@@ -9617,38 +9641,60 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSSe
 
     private func pollTraffic() {
         guard FileManager.default.fileExists(atPath: trafficURL.path) else { return }
-        guard let handle = try? FileHandle(forReadingFrom: trafficURL) else { return }
-        defer { try? handle.close() }
-        let size = (try? FileManager.default.attributesOfItem(atPath: trafficURL.path)[.size] as? UInt64) ?? 0
-        if !trafficPrimed {
-            // Recover a bounded tail so reopening the app does not hide recent requests.
-            trafficOffset = size > 65536 ? size - 65536 : 0
-            if trafficOffset > 0 {
-                try? handle.seek(toOffset: trafficOffset)
-                let tail = handle.readDataToEndOfFile()
-                if let newline = tail.firstIndex(of: 10) { trafficOffset += UInt64(newline + 1) }
+        let currentOffset = trafficOffset
+        let primed = trafficPrimed
+        let remainder = trafficRemainder
+        let url = trafficURL
+
+        DispatchQueue.global(qos: .utility).async { [weak self] in
+            guard let handle = try? FileHandle(forReadingFrom: url) else { return }
+            defer { try? handle.close() }
+            let size = (try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? UInt64) ?? 0
+            var offset = currentOffset
+            if !primed {
+                offset = size > 65536 ? size - 65536 : 0
+                if offset > 0 {
+                    try? handle.seek(toOffset: offset)
+                    let tail = handle.readDataToEndOfFile()
+                    if let newline = tail.firstIndex(of: 10) { offset += UInt64(newline + 1) }
+                }
             }
-            trafficPrimed = true
-        }
-        if size < trafficOffset {
-            trafficOffset = 0
-            trafficRemainder = ""
-        }
-        if size == trafficOffset { return }
-        try? handle.seek(toOffset: trafficOffset)
-        let data = handle.readDataToEndOfFile()
-        trafficOffset = size
-        guard var text = String(data: data, encoding: .utf8) else { return }
-        if !trafficRemainder.isEmpty {
-            text = trafficRemainder + text
-            trafficRemainder = ""
-        }
-        var lines = text.components(separatedBy: "\n")
-        if text.hasSuffix("\n") == false, let tail = lines.popLast() {
-            trafficRemainder = tail
-        }
-        for line in lines where line.isEmpty == false {
-            appendTrafficLine(line)
+            if size < offset { offset = 0 }
+            if size == offset {
+                DispatchQueue.main.async {
+                    self?.trafficPrimed = true
+                    self?.trafficOffset = offset
+                }
+                return
+            }
+            try? handle.seek(toOffset: offset)
+            let data = handle.readDataToEndOfFile()
+            let newOffset = size
+            guard var text = String(data: data, encoding: .utf8) else {
+                DispatchQueue.main.async {
+                    self?.trafficPrimed = true
+                    self?.trafficOffset = newOffset
+                }
+                return
+            }
+            if !remainder.isEmpty {
+                text = remainder + text
+            }
+            var lines = text.components(separatedBy: "\n")
+            var newRemainder = ""
+            if text.hasSuffix("\n") == false, let tail = lines.popLast() {
+                newRemainder = tail
+            }
+            let validLines = lines.filter { !$0.isEmpty }
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.trafficPrimed = true
+                self.trafficOffset = newOffset
+                self.trafficRemainder = newRemainder
+                for line in validLines {
+                    self.appendTrafficLine(line)
+                }
+            }
         }
     }
 
